@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './Login.scss';
 
+import axios from 'axios';
+
 import backgroundWeb from "../resources/Base.png";
 import backgroundWeb2 from "../resources/Illustration-1.png";
 
@@ -13,12 +15,24 @@ import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import Checkbox from '@material-ui/core/Checkbox';
+import Button from '@material-ui/core/Button';
 
 class Login extends Component {
 
     constructor(props){
         super(props);
-        this.state = {}
+        this.state = {
+            persons: null
+        }
+    }
+
+    apiGetPersons = () => {
+        axios.post(`https://freestyle.getsandbox.com/dummy/obtenerdatospersona`)
+      .then(res => {
+        const persons = res.data;
+        this.setState({ persons });
+        console.log(res)
+      })
     }
 
     render() {
@@ -100,14 +114,25 @@ class Login extends Component {
                             />
                         </form>
                         <TextField id="outlined-basic" label="Celular" variant="outlined" />
-                        <div>
+                        <div className="box-politic">
                             <Checkbox
-                                defaultChecked
                                 color="primary"
                                 inputProps={{ 'aria-label': 'secondary checkbox' }}
                             />
-                            <p>Acepto la <span>Política de protección de datos personales y los términos y condiciones</span></p>
+                            <p className="text-politic">Acepto la <span>Política de protección de datos personales y los términos y condiciones</span></p>
                         </div>
+                        <div className="box-politic">
+                            <Checkbox
+                                color="primary"
+                                inputProps={{ 'aria-label': 'secondary checkbox' }}
+                            />
+                            <p className="text-politic">Acepto la <span>Política de envío de Comunicaciones Comerciales</span></p>
+                        </div>
+
+                        <Button variant="contained" color="primary"
+                            onClick={this.apiGetPersons}>
+                            COMENCEMOS
+                            </Button>
                     </div>
                     
                     
